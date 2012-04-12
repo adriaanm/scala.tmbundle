@@ -82,6 +82,18 @@
 			<key>include</key>
 			<string>#xml-literal</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#meta-brackets</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#meta-bounds</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#meta-colons</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -146,6 +158,22 @@
 					<string>/\*\*/</string>
 					<key>name</key>
 					<string>comment.block.empty.scala</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.comment.scala</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.line.double-slash.scala</string>
 				</dict>
 				<dict>
 					<key>begin</key>
@@ -340,8 +368,16 @@
 		</dict>
 		<key>empty-parentheses</key>
 		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>meta.bracket.scala</string>
+				</dict>
+			</dict>
 			<key>match</key>
-			<string>\(\)</string>
+			<string>(\(\))</string>
 			<key>name</key>
 			<string>meta.parentheses.scala</string>
 		</dict>
@@ -382,8 +418,24 @@
 				<dict>
 					<key>begin</key>
 					<string>{</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.bracket.scala</string>
+						</dict>
+					</dict>
 					<key>end</key>
 					<string>}</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>meta.bracket.scala</string>
+						</dict>
+					</dict>
 					<key>name</key>
 					<string>meta.import.selector.scala</string>
 					<key>patterns</key>
@@ -487,6 +539,67 @@
 					<key>name</key>
 					<string>keyword.control.exception.scala</string>
 				</dict>
+				<dict>
+					<key>match</key>
+					<string>(==?|!=|&lt;=|&gt;=|&lt;&gt;|&lt;|&gt;)</string>
+					<key>name</key>
+					<string>keyword.operator.comprasion.scala</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(\-|\+|\*|/(?![/*])|%|~)</string>
+					<key>name</key>
+					<string>keyword.operator.arithmetic.scala</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(!|&amp;&amp;|\|\|)</string>
+					<key>name</key>
+					<string>keyword.operator.logical.scala</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(&lt;-|←|-&gt;|→|=&gt;|⇒|\?|\:+|@|\|)+</string>
+					<key>name</key>
+					<string>keyword.operator.scala</string>
+				</dict>
+			</array>
+		</dict>
+		<key>meta-bounds</key>
+		<dict>
+			<key>comment</key>
+			<string>For themes: Matching view bounds</string>
+			<key>match</key>
+			<string>&lt;%|=:=|&lt;:&lt;|&lt;%&lt;|&gt;:|&lt;:</string>
+			<key>name</key>
+			<string>meta.bounds.scala</string>
+		</dict>
+		<key>meta-brackets</key>
+		<dict>
+			<key>comment</key>
+			<string>For themes: Brackets look nice when colored.</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>{|}|\(|\)|\[|\]</string>
+					<key>name</key>
+					<string>meta.bracket.scala</string>
+				</dict>
+			</array>
+		</dict>
+		<key>meta-colons</key>
+		<dict>
+			<key>comment</key>
+			<string>For themes: Matching type colons</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!:):(?!:)</string>
+					<key>name</key>
+					<string>meta.colon.scala</string>
+				</dict>
 			</array>
 		</dict>
 		<key>parameter-list</key>
@@ -504,11 +617,16 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
+							<string>meta.colon.scala</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
 							<string>entity.name.class</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*([A-Za-z0-9][\w|_|?|\.]*)?,?</string>
+					<string>([a-zA-Z$_][a-zA-Z0-9$_]*)\s*(:)\s+([A-Za-z0-9][\w|_|?|\.]*)?,?</string>
 				</dict>
 			</array>
 		</dict>
