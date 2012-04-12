@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>saveModifiedFiles</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby
+
+require ENV["TM_SUPPORT_PATH"] + "/lib/tm/executor"
+require ENV["TM_SUPPORT_PATH"] + "/lib/escape"
+
+Dir.chdir(File.dirname(ENV["TM_PROJECT_DIRECTORY"]))
+
+TextMate::Executor.run("ant", "quick.bin", :verb =&gt; "Making", :use_hashbang =&gt; false) do |line, type|
+  if line =~ /\[scalacfork\] (\/.*\.scala):(\d*)(.*)/ and not $1.nil?
+    "&lt;a href=\"txmt://open?url=file://#{$1}&amp;line=#{$2}\"&gt;#{$1} : #{$2}&lt;/a&gt;#{htmlize $3}&lt;br&gt;\n"
+  elsif line =~ /BUILD SUCCESSFUL/
+    system 'echo "done" | growlnotify "Ant build"'
+    htmlize line
+  elsif line =~ /BUILD FAILED/
+    system 'echo "FAILED" | growlnotify "Ant build"'
+    htmlize line
+  end
+end
+
+</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>@b</string>
+	<key>name</key>
+	<string>ant quick.bin</string>
+	<key>output</key>
+	<string>showAsHTML</string>
+	<key>scope</key>
+	<string>source.scala</string>
+	<key>uuid</key>
+	<string>AB2C3BBE-B401-4A4F-9DCD-258A59AAC088</string>
+</dict>
+</plist>
